@@ -8,7 +8,10 @@ A consistent analysis of the performance of products is crucial. However, as a c
 
 Made by:
 Juan Diego Lozada 20222020014
+
 Juan Pablo Mosquera 20221020026
+
 María Alejandra Ortiz Sánchez 20242020223
+
 Jeison Felipe Cuenca: 20242020043
 
