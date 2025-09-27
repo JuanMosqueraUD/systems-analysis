@@ -15,10 +15,10 @@ A consistent analysis of the performance of products is crucial. However, as a c
 
 - Jeison Felipe Cuenca: 20242020043
 
-##System E-commerce
+### System E-commerce
 
 ![](Ecommerce_system.png)
 
-##Corelation Between Elements Diagram
+### Corelation Between Elements Diagram
 
 ![](Diagram1.png)
