@@ -6,12 +6,19 @@ Otto Group is one of the largest e-Commerce companies in the world, having subsi
 
 A consistent analysis of the performance of products is crucial. However, as a consequence of its diverse global infrastructure, many identical products are classified differently. Therefore, the quality of their product analysis depends on the ability to accurately cluster similar products. The better the classification, the more insight there can be generated about product range.
 
-Made by:
-Juan Diego Lozada 20222020014
 
-Juan Pablo Mosquera 20221020026
+- Juan Diego Lozada 20222020014
 
-María Alejandra Ortiz Sánchez 20242020223
+- Juan Pablo Mosquera 20221020026
 
-Jeison Felipe Cuenca: 20242020043
+- María Alejandra Ortiz Sánchez 20242020223
 
+- Jeison Felipe Cuenca: 20242020043
+
+System E-commerce
+
+![](Ecommerce_system.png)
+
+Corelation Between Elements Diagram
+
+![](Diagram1.png)
