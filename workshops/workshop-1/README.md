@@ -21,4 +21,4 @@ A consistent analysis of the performance of products is crucial. However, as a c
 
 ### Corelation Between Elements Diagram
 
-![](Diagram1.png)
+![](Diagrama1.png)
