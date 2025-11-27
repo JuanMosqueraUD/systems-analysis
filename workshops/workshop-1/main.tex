@@ -3,16 +3,18 @@
 %
 %aquí va lo equivalente a las librerías, sirve para que lo que sea que uno agregue tenga sentido según el documento
 \documentclass[12pt]{article}%para decir que este documento es como un paper mas del montón, y se tiene en forma de "artículo"
-\usepackage[utf8]{inputenc}%para poder usar caracteres
-\usepackage[english]{babel}%Lenguaje inglés
+\usepackage[utf8]{inputenc}%para poder usar caracteres a lo menso
+\usepackage[english]{babel}%para que no se haga bola con el inglés
 \usepackage{geometry}%para agregar margenes, líneas y formas chidas
 \usepackage{array}%para agregar tablitas bien chachis
 \usepackage{xcolor}%para agregar coloircitos bien chachipirulis
 \usepackage{colortbl}%para agregarle colores a las palatras
-\usepackage{url}%para poder agregar urls :v
+\usepackage{url}%para poder agregar urls
 \usepackage{xurl} % permite cortar URLs largas
+\usepackage{graphicx}% permite agregar imágenes a lo que marca Bv
+\usepackage{amsmath}     
 
-%se define las márgenes de las hojas ddel proyecto
+%se define las márgenes de las hojas del proyecto
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
 %inicia la edición del documento en si
@@ -22,19 +24,20 @@
 \begin{center}
 
     %para hacerlo mas grande y grueso
-    {\Large \textbf{UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS}}\\[1cm]%agrega un espaciado entre esta y la siguiente línea
+    {\Large \textbf{UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS }}\\[1cm]%agrega un espaciado entre esta y la siguiente línea
     {\large \textbf{FACULTAD DE INGENIERÍA}}\\%la dobre línea es para hacer salto de línea
     {\large Ingeniería de Sistemas}\\[2cm]
 
-    %agrega una línea :v
+    %agrega una línea
     \rule{\textwidth}{0.4pt}\\[0.8cm]
-    {\Large \textbf{Otto Group Product Classification Challenge}}\\[0.8cm]
+    {\Large \textbf{Otto Group Product Classification Challenge, A Systematic Analysis}}\\[0.8cm]
 
     %agrega otra línea :v :v
     \rule{\textwidth}{0.4pt}\\[2cm]
 
     {\Large Systems Analysis \& Design}\\[1cm]
-    {\large Group 020-82}\\[2.5cm]
+    {\large Group 020-82}\\[1.0cm]
+    {\large Workshop \#1}\\[2.0cm]
 
     %agrega una tabla, en este caso, de una columna
     \begin{tabular}{>{\bfseries}c}%para que todo lo que quede en la tabla esté en negrita y la c es de Troy, ah, y de centrado
@@ -47,140 +50,263 @@
     \begin{tabular}{c}
         Juan Diego Lozada 20222020014\\
         Juan Pablo Mosquera 20221020026 \\
-        María Alejandra Ortiz Sánchez 20242020223 \\
-        Jeison Felipe Cuenca Mojica: 20242020043 \\
+        María Alejandra Ortiz Sánchez 20242020223\\
+        Jeison Felipe Cuenca: 20242020043 \\
     \end{tabular}
     \vfill % para empujar el bloque al final de la página
 
     %muestra lo que esté dentro en negrita
     \textbf{Professor:} Carlos Andrés Sierra Virguez \\[1cm]
-    \textbf{Date: 2025} 
+    \textbf{Date: September 2025} 
     
 \end{center}
 
-\newpage % aquí va a ir solo la tabla de contenido en una sola hoja
-\tableofcontents %Tabla de contenido
+\newpage % aquí va a ir solo la tabla de contenido en una sola hojita, para no hacernos bola
+\tableofcontents %la tabla de contenido :v (se actualiza sola)
 
 
 \newpage
 %las secciones es lo que irá en la tabla de contenidos, también es el título de lo que se va a escribir debajo, no es necesario cerrar la sección para iniciar otra
 \section{Introduction}
-The Otto Group is one of the world’s biggest e-commerce companies, with subsidiaries in more than 20 countries, including Crate \& Barrel (USA), Otto.de (Germany) and 3 Suisses (France). We are selling millions of products worldwide every day, with several thousand products being added to our product line.
 
-A consistent analysis of the performance of our products is crucial. However, due to our diverse global infrastructure, many identical products get classified differently. Therefore, the quality of our product analysis depends heavily on the ability to accurately cluster similar products. The better the classification, the more insights we can generate about our product range.
+\subsection{Context Summary}
+
+Otto Group is one of the largest e-Commerce companies in the world, having subsidiaries in more than 20 countries, including the USA with Crate \& Barrel, Germany with Otto.de, and France with 3 Suisses. They sell millions of products worldwide every day, with several thousand products being added to their product line.
+
+A consistent analysis of the performance of products is crucial. However, as a consequence of its diverse global infrastructure, many identical products are classified differently. Therefore, the quality of their product analysis depends on the ability to accurately cluster similar products. The better the classification, the more insight there can be generated about product range.
+
+Submissions are evaluated using the multi-class logarithmic loss. Each product has been labeled with one true category. For each product, you must submit a set of predicted probabilities (one for every category). The formula is then:
+
+\begin{equation}
+    \text{logloss} = -\frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{M} y_{ij} \log(p_{ij})
+\end{equation}
+
+
+\subsection{General Context}
+
+
+An e-commerce is a business model where products or services are bought and sold through online platforms or websites; it allows customers to browse, compare, purchase, and pay digitally at any time, offering both physical goods like clothing or electronics and digital services such as subscriptions or software, with well-known examples including Amazon, Shein, and Temu.
+
+It is important to know that an e-commerce (fig 1, system proposed for e-commerce challenge) is not just sell and buy products, is a complex system with several layers that interact between each other, there are others components that are included in the e-commerce that the sellers did not see such as:
+
+\begin{itemize}
+    \item \textbf{Product Information Management (PIM):} Product attributes, descriptions, images, identifiers, this make the product more attractive for the people who is interested.
+    \item \textbf{Catalog and Classification:} Categories, subcategories, and hierarchical structures that organize products, for find the best option.
+    \item \textbf{Inventory and Logistics Management:} Stock levels, warehouses, suppliers, and delivery times. It is important to optimize the delivery time, some cases, the products could spend one month.
+    \item \textbf{Sales and Transactions:} purchase records and dynamic pricing strategies.
+    \item \textbf{Customer Data:} browsing patterns, cart activity, purchase history, and segmentation, know more about the user for show the correct product.
+    \item \textbf{Marketing and Sales Channels:} mobile apps, external marketplaces, and digital campaigns like fb ads, are useful for make a direct interaction between the product and the buyer.
+    \item \textbf{Analytics and Reporting:} – performance metrics (KPIs), clustering insights, sales trends, and profitability analysis.
+\end{itemize}
+
+
+
+\begin{figure}[h!]%el h es para que lo ponga "aquí" :v, y el ! es porque deber poder escalar la imagen
+    \centering %para que centre la imagen
+    \includegraphics[width=1\textwidth]{E-commerce.png} %busca la imagen, se elige el tamaño en porcentaje entre 0 y 1, al tamaño del texto y la ubicación de la imagen
+    \caption{System About E-commerce - Kaggle} %el subtítulo de la imagen
+    \label{fig:diagrama1} %para poder referenciarlo
+\end{figure}
+
 
 \section{Methodology and Deliverables}
 
 %las subsecciones son casi igual que las secciones, también entran en la tabla de contenidos como algo que continúa con lo anterior (también pueden haber subsubsecciones y el que sigue y el que sigue), tampoco es necesario cerrar las subsecciones
-\subsection{Summary About Competence}
+\subsection{Competence Summary}
 
-El reto consiste en construir un modelo de clasificación que pueda asignar 
-correctamente productos a 9 categorías principales de productos, dadas sus 
-características numéricas. 
+The challenge lies in building a classification model capable of correctly assigning products to 9 main product categories, given their numerical features.
 
-La métrica utilizada para evaluar las predicciones es el \textit{log loss} multiclase 
-(también llamado \textit{multi-class logarithmic loss}), que penaliza fuertemente las 
-predicciones incorrectas realizadas con alta confianza.\\[0.5cm]
+The metric used to evaluate the predictions is the \textit{log loss} for multiple classes (referred to as multi-class logarithmic loss), which strongly penalizes incorrect predictions made with high confidence.\\[0.5cm]
 
 %gorda y grande, como les gusta a muchos (lo dejé así para que parezca un título, sin la necesidad de que entre a la tabla de contenido como una subsubsección
-\textbf{\large Datos disponibles: }
+\textbf{\large Available data: }
 
-Se proveen más de 200.000 productos (filas), cada uno con 93 características 
+More than 200,000 products (rows) are provided, each with 93 obfuscated numerical values.
 %eso agrega letra itálica
-numéricas (\textit{features}) obfuscadas (es decir, sin interpretación directa). 
-En el conjunto de entrenamiento (\textit{train}) aparece la columna \texttt{target}, %eso muestra la letra como si fuese de máquina de escribir, buena para denoatar código
-que corresponde a la categoría de producto. En el conjunto de prueba (\textit{test}) 
-no aparece la columna \texttt{target}, y lo que se debe predecir son probabilidades 
-para cada clase. 
+\textit{features} (i.e., without direct interpretation).
+In the training set (\textit{train}), the \texttt{target} column appears, which corresponds to the product category. In the test set (\textit{test}), the \texttt{target} column is absent, and the task is to predict probabilities for each class.
 
-Además, cada instancia o producto tiene un identificador \texttt{id}, que no aporta 
-a la clasificación y, por lo tanto, se descarta como variable predictiva. 
+In addition, each instance or product has an identifier \texttt{id}, which does not contribute to classification and is therefore discarded as a predictive variable.
 
-Las clases no están perfectamente balanceadas: algunas categorías tienen más 
-ejemplos que otras.\\[0.5cm]
+The classes are not perfectly balanced: some categories have more examples than others.\\[0.5cm]
 
-\textbf{\large Restricciones: }
+\textbf{\large Constraints: }
 
-El archivo de envío debía incluir:
+The submission file had to include:
 \begin{itemize} %inicia una lista con punticos
-    \item Columna \texttt{id} del conjunto de prueba (\texttt{test}).
-    \item Nueve columnas de probabilidades (una por cada clase).
-    \item La suma de las probabilidades en cada fila debía ser igual a 1.
+\item Column \texttt{id} from the test set (\texttt{test}).
+\item Nine probability columns (one for each class).
+\item The sum of probabilities in each row had to be equal to 1. \\
 \end{itemize} %finaliza la lista
 
-\textbf{Métrica de evaluación:} multi-class logarithmic loss.  
+\noindent \textbf{Evaluation Metric:} multi-class logarithmic loss. \\
 
-\textbf{Número de envíos:} máximo 5 por día.  
+\noindent \textbf{Number of submissions:} maximum 5 per day. \\
 
 \textbf{Leaderboard:}
 \begin{itemize}
-    \item \textbf{Público:} solo una parte del conjunto \texttt{test}.
-    \item \textbf{Privado:} usado para la clasificación final.
+\item \textbf{Public:} Only a portion of the \texttt{test} set.
+\item \textbf{Private:} Used for the final ranking.
 \end{itemize}
 
-\textbf{Datos:}
+\textbf{Data:}
 \begin{itemize}
-    \item Se debía trabajar únicamente con los datos provistos (\texttt{train} y \texttt{test}).
-    \item Estaba prohibido usar datos externos o de dominio específico.
-    \item Las variables (93 \textit{features}) estaban ofuscadas.
+\item Work was restricted to the provided datasets (\texttt{train} and \texttt{test}).
+\item The use of external or domain-specific data was prohibited.
+\item The variables (93 \textit{features}) were obfuscated.
 \end{itemize}
 
-\textbf{Clases:}
+\textbf{Classes:}
 \begin{itemize}
-    \item Existían 9 categorías.
-    \item La distribución era desbalanceada entre ellas.
+\item There were 9 categories.
+\item The distribution among them was imbalanced.
 \end{itemize}
 
-\subsection{Informe del Análisis de Sistemas}
+\subsection{System Analysis Report}
 
 %para que no entre como parte de la identación (y se vea mas fino, señores)
-\noindent\textbf{\large Elementos: }
+\noindent\textbf{\large Elements: }
 \begin{itemize}
-    \item \textbf{Productos: }Cada fila (instancia) corresponde a un producto distinto ofrecido por Otto Group
+    \item \textbf{Products: }Each row (instance) corresponds to a different product offered by Otto Group.
 
-    Son lo que hay que clasificar. Las decisiones de negocio dependen de tener una buena clasificación: análisis, inventarios, marketing, cliente, etc
+    These are what must be classified. Business decisions depend on having an accurate classification: analysis, inventories, marketing, customer relations, etc.  
 
-    \item \textbf{Variables: }Características numéricas de los productos; están “obfuscadas” → no se conoce su significado real
+    \item \textbf{Variables: }Numerical features of the products; they are “obfuscated” → their actual meaning is unknown.  
 
-    Son las señales que alimentan el modelo. Al no saber qué son exactamente, se depende de la correlación estadística, ingeniería de características, selección de variables, análisis exploratorio. También influyen en cómo elegir modelos (por ej., modelos robustos frente a variables independientes, valores esparsos, correlaciones, etc.)
+    These are the signals that feed the model. Since their precise meaning is unknown, one relies on    statistical correlation, feature engineering, variable selection, and exploratory analysis. They also influence model choice (e.g., models robust to independent variables, sparse values, correlations, etc.).  
 
-    \item \textbf{Clase: }La categoría a la que realmente pertenece cada producto
+    \item \textbf{Class: }The category to which each product actually belongs.  
 
-    Es lo que se quiere predecir. Está ligado a la métrica de evaluación (log loss multiclase), al desbalance entre clases, al diseño del modelo, etc. En contexto de negocio, esas categorías serían las líneas principales de producto que Otto analiza
+    This is what is to be predicted. It is tied to the evaluation metric (multi-class log loss), to class imbalance, to model design, etc. In a business context, these categories represent the main product lines analyzed by Otto.  
 
-    \item \textbf{Datos de entrenamiento: }Entrenamiento tiene los productos con categoría conocida; test tiene solo características, se deben predecir probabilidades
+    \item \textbf{Training data: }The training set contains products with known categories; the test set contains only features, and probabilities must be predicted.  
 
-    Permite entrenar modelos y luego evaluarlos en datos nuevos. La separación obliga a pensar en generalización. El leaderboard público/privado está basado en particiones de test
+    This allows training models and then evaluating them on new data. The separation enforces consideration of generalization. The public/private leaderboard is based on partitions of the test set.  
 
-    \item \textbf{Métrica: }Penaliza errores con alta confianza; exige probabilidades calibradas para todas las clases, no solo clasificación correcta
+    \item \textbf{Metric: }Penalizes errors made with high confidence; requires calibrated probabilities for all classes, not only correct classification.  
 
-    Impone que los modelos no solo “acierten” la clase, sino que sus predicciones probabilísticas sean razonables. Afecta decisiones: qué algoritmo, regularización, ensambles, calibración, etc. También conlleva que los errores sobre clases minoritarias puedan pesar mucho si no se modelan bien
+    This imposes that models must not only “predict the right class,” but also produce reasonable probabilistic predictions. It influences decisions: algorithm choice, regularization, ensembling, calibration, etc. It also entails that errors on minority classes can weigh heavily if not modeled properly.  
 
-    \item \textbf{Restricciones: }Limitaciones técnicas/procedimentales impuestas por la competencia
+    \item \textbf{Constraints: }Technical/procedural limitations imposed by the competition.  
 
-    Sirven para asegurar justicia, evitar “sobre-ajuste” del leaderboard, y fomentar modelos que generalicen. Influyen en estrategia: validación cruzada, enmascarar test privado, etc
+    These serve to ensure fairness, avoid “overfitting” the leaderboard, and foster models that generalize. They influence strategy: cross-validation, masking of private test data, etc.  
 
-    \item \textbf{Negocio (contexto de Otto Group): }Otto vende millones de productos en muchos países; tienen problemas de inconsistencia en la clasificación de productos idénticos, lo que afecta análisis y decisiones
+    \item \textbf{Business (Otto Group context): }Otto sells millions of products in many countries; they face issues of inconsistency in the classification of identical products, which affects analysis and decision-making.  
 
-    Justificación del reto: mejorar la calidad del análisis de productos para la empresa. A partir de una buena clasificación se pueden generar clustering, métricas de desempeño, análisis más fiables, mejor experiencia de cliente, etc
+    This justifies the challenge: improving the quality of product analysis for the company. With accurate classification, clustering, performance metrics, more reliable analysis, and improved customer experience can be achieved.  
 
-    \item \textbf{Correlaciones: }Procesos técnicos que los competidores aplicaron para mejorar desempeño
+    \item \textbf{Correlations: }Technical processes applied by competitors to improve performance.  
 
-    Relacionan directamente con el hecho de que las variables no tienen significado explícito, muchas pueden estar correlacionadas, algunas irrelevantes. Estos pasos ayudan a estabilizar el modelo, evitar ruido, reducir riesgo de overfitting
+    These are directly related to the fact that variables lack explicit meaning, many may be correlated, and some irrelevant. Such steps help stabilize the model, avoid noise, and reduce the risk of overfitting.  
 
-    \item \textbf{Modelos y algoritmos: }Los métodos de machine learning que se usan: árboles, boosting, redes neuronales, ensambles, etc
+    \item \textbf{Models and algorithms: }The machine learning methods used: trees, boosting, neural networks, ensembles, etc.  
 
-    Dependen de los datos, de la métrica, del tamaño del dataset, y de las restricciones. Por ejemplo, modelos que proporcionen probabilidades para todas las clases son necesarios, que manejen features obfuscadas, que toleren desbalance de clases. También del hardware / tiempo disponible
-    
+    Their selection depends on the data, the metric, the dataset size, and the restrictions. For example, models that provide probabilities for all classes are necessary, that can handle obfuscated features, and tolerate class imbalance. Hardware and available time are also determining factors.  
+
 \end{itemize}
 
-\subsection{Complejidad y Sensibilidad}
+%agrega una imagen
+\begin{figure}[h!]%el h es para que lo ponga "aquí" :v, y el ! es porque deber poder escalar la imagen
+    \centering %para que centre la imagen
+    \includegraphics[width=1\textwidth]{Diagrama1.png} %busca la imagen, se elige el tamaño en porcentaje entre 0 y 1, al tamaño del texto y la ubicación de la imagen
+    \caption{Corelation Between Elements Diagram} %el subtítulo de la imagen
+    \label{fig:diagrama1} %para poder referenciarlo
+\end{figure}
 
-\textbf{Features Obfuscadas: }
 
-Puede suceder que al tener que procesar los productos en diferentes categorías, no se llegue a conocer el significado de las 93 vairables disponibles, lo que dificultaría hacer ingeniería de características basado en el conocimiento de dominio. Por lo mismo, obligaría a depender solo de patrones estadísticos y numéricos para la categorización de los productos
+\subsection{Complexity and Sensitivity}
 
-\textbf{Alta Dimensionalidad: }
+\textbf{Obfuscated Features: }
+
+One of the main challenges lies in the fact that the 93 input variables are completely obfuscated, meaning that their real-world meaning is unknown. This implies that participants cannot rely on business domain knowledge to design new variables or discard irrelevant ones. For example, if a feature were “weight” or “color,” it would be easier to interpret its relationship with the product, but here the information is given as numerical values without apparent semantics. This forces participants to work solely with statistical, mathematical, and correlation-exploration methods, greatly limiting intuitive feature engineering.\\
+
+\noindent\textbf{High Dimensionality: }
+
+The dataset contains 93 variables and more than 200,000 rows, which makes it a high-dimensional problem. This situation brings two challenges: on the one hand, the risk of overfitting, since a complex model may learn spurious patterns that do not generalize well; and on the other hand, computational costs, as training models on such a large space can be slow and resource-intensive. This necessitates the application of dimensionality reduction, variable selection, or regularization, as well as careful algorithm optimization to achieve a balance between accuracy and computational time.\\
+
+\noindent\textbf{Demanding Metric: }
+
+The evaluation metric is the multi-class log loss, which not only measures whether the most probable category is correctly predicted, but also the quality of the assigned probabilities. The major challenge is that it penalizes highly confident errors very severely: if the model predicts a probability close to 1 for an incorrect class, the loss is extremely high. This implies that the simple approach of “predicting the correct class” is not sufficient; instead, well-calibrated predictions must be produced, adding an additional layer of complexity to the task.\\
+
+\noindent\textbf{Proper Validation: }
+
+Designing an adequate validation strategy was another critical challenge. Since the public leaderboard used only a portion of the test set, there was a high risk of overfitting to the leaderboard; that is, optimizing models that seemed strong on the public portion but failed on the private one. If the internal validation (for example, a hold-out or cross-validation) did not accurately reflect the true distribution of the test data, the results obtained were misleading. Therefore, it was essential to use robust cross-validation and maintain discipline to avoid overfitting to what Kaggle’s leaderboard displayed.\\
+
+\noindent\textbf{Model Selection: }
+
+The choice of algorithms also presented a challenge. Simple models, such as logistic regression, could be too weak to capture the complex relationships between the 93 features. In contrast, more powerful models such as XGBoost, neural networks, or ensembles offered great predictive capacity, but required fine-tuning of hyperparameters and longer training times. The difficulty lay in finding a balance between simplicity, power, and computational feasibility, especially because the dataset was large and the submission limit required prioritizing experiments with a higher chance of success.\\
+
+\noindent\textbf{Feature Engineering: }
+
+Although the features were obfuscated, feature engineering remained key. Creating new derived variables, such as counts of non-zero values, attribute sums, logarithmic transformations, or binarizations, could significantly improve performance. The challenge was identifying which of these transformations truly contributed to the improvement and which introduced unnecessary noise. Without a semantic guideline, a large number of combinations had to be empirically experimented with, which increased the effort and the risk of falling into irrelevant patterns.\\
+
+\noindent\textbf{Kaggle Restrictions: }
+
+Kaggle's own rules added strategic obstacles. The limit of five submissions per day required careful planning of which models to test on the leaderboard. Furthermore, the submission format required that the nine probabilities sum to one per row, necessitating strict control over output processing. Finally, the prohibition on using external data limited creativity, forcing everyone to work solely with the provided dataset. These restrictions sought fairness, but at the same time demanded discipline and strategy in participation.\\
+
+\noindent\textbf{Calibration Of Possibilities: }
+
+Many classification algorithms do not naturally deliver well-calibrated probabilities. For example, Random Forest or Gradient Boosting can generate outputs that misrepresent true confidence. This is a major problem in a competition whose metric is log loss, because the evaluation depends on probabilities accurately reflecting uncertainty. Addressing this issue required applying calibration techniques such as Platt scaling or isotonic regression, or using cross-validation to adjust probabilities. The additional effort to achieve this calibration was one of the most critical tasks.\\
+
+\noindent\textbf{Time and Resources Management: }
+
+Finally, time and computational resource management were a determining factor. Testing multiple models, ensembles, and hyperparameter configurations was computationally demanding. Furthermore, the competition window required prioritizing which experiments to run first. Poor time management could lead to mediocre models, while a good experiment organization and prioritization strategy made the difference between an average and a competitive result.
+
+
+\subsection{Chaos and Randomness}
+
+In addition to complexity and sensitivity, the Otto Group Product Classification Challenge
+also exhibits elements that can be interpreted through the lens of chaos theory and randomness.\\
+
+\noindent\textbf{Unpredictable Feature Interactions: }  
+The dataset consists of 93 obfuscated numerical features, with no explicit semantic meaning. 
+This creates potential for hidden, nonlinear interactions between variables. Some features 
+may strongly correlate under certain subsets of data but appear independent in others, 
+introducing unpredictable effects in the model’s performance. \\
+
+
+
+\noindent\textbf{Feedback Loops with the Leaderboard: }  
+The Kaggle leaderboard itself introduces a feedback dynamic. Competitors adjust their 
+models based on public leaderboard results, which represent only a partial view of the 
+test set. This iterative adjustment may create unpredictable oscillations in strategy, 
+where small changes lead to disproportionate effects in private leaderboard ranking.\\  
+
+\noindent\textbf{Business and System-Level Uncertainty: }  
+At the business level, inconsistent classification of identical products demonstrates 
+chaotic dynamics. Small differences in product description or feature encoding can lead 
+to entirely different classifications, which in turn affects inventories, customer 
+recommendations, and strategic decisions.  \\
+
+Overall, these aspects highlight that the competition system is not purely deterministic. 
+It involves stochastic training dynamics, unpredictable variable interactions, and systemic 
+feedback loops, all of which align with principles of chaos and randomness in complex systems.\\
+
+
+\subsection{Conclusion}
+
+\begin{itemize}
+    \item The analysis of the Otto Group Product Classification Challenge highlights the complexity 
+of building robust classification systems under strong constraints.
+    \item  The competition 
+involves high-dimensional and obfuscated data, making domain-driven feature engineering 
+infeasible and forcing reliance on statistical and computational methods.
+    \item The demanding 
+evaluation metric (multi-class log loss) requires not only correct classifications but 
+also well-calibrated probabilities, significantly increasing the modeling challenge.  
+    \item There are multiple interdependence such as
+datasets, variables, business context, evaluation rules, and strategic constraints, whose interact in nonlinear and sometimes unpredictable ways,
+sensitivity and chaotic dynamics in model outcomes. 
+    \item The strengths of the system lie in its ability to simulate real-world classification 
+uncertainties and encourage the use of advanced machine learning techniques. However, 
+weaknesses include the lack of semantic interpretability of features and the strong 
+susceptibility to overfitting, both to the data and to the public leaderboard.  
+    \item the Otto challenge serves not only as a machine learning competition but 
+also as a case study in systems analysis. This makes 
+it an ideal scenario to apply systems engineering principles, bridging data science 
+practice with systemic thinking.
+
+\end{itemize}
 
 
 
@@ -189,13 +315,13 @@ Puede suceder que al tener que procesar los productos en diferentes categorías,
 
 %aquí solo estará la bibliografía
 \newpage
-\section{Bibliografía}
+\section{Bibliography}
     \begin{thebibliography}{99} % el número es solo para ajustar el espacio del índice
     
     \bibitem{KaggleOtto}
     Kaggle. (s.\,f.). \textit{Otto Group Product Classification Challenge}.  
-    Disponible en: \url{https://www.kaggle.com/competitions/otto-group-product-classification-challenge/}.  
-    Accedido el 11 de septiembre de 2025.
+    Available at: \url{https://www.kaggle.com/competitions/otto-group-product-classification-challenge/} \\
+    Accessed September 11, 2025.
     
     \end{thebibliography}
 

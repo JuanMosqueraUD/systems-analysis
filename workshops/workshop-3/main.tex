@@ -1,0 +1,381 @@
+\documentclass[12pt]{article}%para decir que este documento es como un paper mas del montón, y se tiene en forma de "artículo"
+\usepackage[utf8]{inputenc}%para poder usar caracteres a lo menso
+\usepackage[english]{babel}%para que no se haga bola con el inglés
+\usepackage{geometry}%para agregar margenes, líneas y formas chidas
+\usepackage{array}%para agregar tablitas bien chachis
+\usepackage{xcolor}%para agregar coloircitos bien chachipirulis
+\usepackage{colortbl}%para agregarle colores a las palatras
+\usepackage{url}%para poder agregar urls
+\usepackage{xurl} % permite cortar URLs largas
+\usepackage{graphicx}% permite agregar imágenes a lo que marca Bv
+\usepackage{amsmath}     
+\usepackage{booktabs} %Para hacer una tabla más mela
+
+%se define las márgenes de las hojas del proyecto
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\begin{document}
+
+\begin{center}
+
+    %para hacerlo mas grande y grueso
+    {\Large \textbf{UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS }}\\[1cm]%agrega un espaciado entre esta y la siguiente línea
+    {\large \textbf{FACULTAD DE INGENIERÍA}}\\%la dobre línea es para hacer salto de línea
+    {\large Ingeniería de Sistemas}\\[2cm]
+
+    %agrega una línea
+    \rule{\textwidth}{0.4pt}\\[0.8cm]
+    {\Large \textbf{Otto Group Product Classification Challenge, A Robust System Design and Planning}}\\[0.8cm]
+
+    %agrega otra línea :v :v
+    \rule{\textwidth}{0.4pt}\\[2cm]
+
+    {\Large Systems Analysis \& Design}\\[1cm]
+    {\large Group 020-82}\\[1.0cm]
+    {\large Workshop \#3}\\[2.0cm]
+
+    %agrega una tabla, en este caso, de una columna
+    \begin{tabular}{>{\bfseries}c}%para que todo lo que quede en la tabla esté en negrita y la c es de Troy, ah, y de centrado
+        Students \\
+
+    %cierra la tabla
+    \end{tabular}\\[1cm]
+
+    %otra tabla centrada, aquí van los nombres de todos
+    \begin{tabular}{c}
+        Juan Diego Lozada 20222020014\\
+        Juan Pablo Mosquera 20221020026 \\
+        María Alejandra Ortiz Sánchez 20242020223\\
+        Jeison Cuenca: 20242020043 \\
+    \end{tabular}
+    \vfill % para empujar el bloque al final de la página
+
+    %muestra lo que esté dentro en negrita
+    \textbf{Professor:} Carlos Andrés Sierra Virguez \\[1cm]
+    \textbf{Date: November 2025} 
+    
+\end{center}
+
+\newpage % aquí va a ir solo la tabla de contenido en una sola hojita, para no hacernos bola
+\tableofcontents %la tabla de contenido :v (se actualiza sola)
+
+
+\newpage
+
+\section{Review and Refine System Architecture }
+
+
+
+\subsection{Overview}
+
+Based on the outcomes of Workshops \#1 and \#2, the system architecture for the Otto Group Product Classification Challenge has been refined to ensure greater robustness, scalability, and maintainability. The goal is to evolve the initial modular design into a resilient structure that supports continuous operation under varying conditions and aligns with recognized quality and engineering standards such as ISO~9000, CMMI, and Six Sigma.
+
+\subsection{Updated Architectural Design}
+
+The architecture incorporates robust design principles, including modularity, fault-tolerance, and scalability. Each component is explicitly labeled and structured to contribute to system quality and reliability. Figure~\ref{fig:diagrama1} presents the updated architecture diagram.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{Arquitecture.jpg}
+    \caption{High-Level Architecture}
+    \label{fig:diagrama1}
+\end{figure}
+
+\subsection{Component Description and System Quality Support}
+
+\begin{itemize}
+    \item \textbf{Data Processing:} Cleans, normalizes, and validates product data. Built with validation scripts that ensure consistency and prevent data corruption.
+    \item \textbf{Feature Engineering:} Extracts meaningful representations from obfuscated variables. Fault-tolerant pipelines allow automated retries in case of processing errors.
+    \item \textbf{Classification Engine:} Implements machine learning models for product categorization. Supports scalability through modular model loading and parallel training.
+    \item \textbf{Analytics and Reporting:} Monitors model performance, system metrics, and error rates. Provides visual dashboards that support feedback and iterative improvement.
+    \item \textbf{Monitoring and Logging Layer:} Tracks performance indicators, logs all runtime errors, and reports anomalies for diagnostic purposes.
+\end{itemize}
+
+\subsection{Design Standards and Quality Frameworks Referenced}
+
+\begin{itemize}
+    \item \textbf{ISO 9000:} Ensures that data handling, pre-processing, and validation procedures meet standardized quality assurance processes.
+    \item \textbf{CMMI:} Provides process maturity guidelines, promoting consistency and repeatability in model training and validation.
+    \item \textbf{Six Sigma:} Applies DMAIC principles (Define, Measure, Analyze, Improve, Control) to continuously improve accuracy, reliability, and system performance.
+\end{itemize}
+
+\newpage
+
+\section{Quality and Risk Analysis}
+
+This section outlines the primary risks that may affect the stability, performance, or integrity of the system during its development and operation.
+
+\subsection{Identification of Potential Risks}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{3cm}|p{4.5cm}|p{5cm}|p{2cm}|}
+\toprule
+\textbf{Risk} & \textbf{Description} & \textbf{Mitigation Strategy} & \textbf{Standard} \\ 
+\midrule
+Data Loss or Corruption & Incomplete or damaged datasets due to transfer errors or pre-processing issues. & Use Git-based version control, automated data validation, and redundant backups. & ISO 9000 \\
+\hline
+Model Overfitting & Model performs well on training data but poorly on unseen data. & Apply k-fold cross-validation, early stopping, and probability calibration. & CMMI \\
+\hline
+Pipeline Downtime & Failure during long training or processing sessions. & Implement error recovery, automatic re-execution scripts, and alert systems. & Six Sigma \\
+\hline
+Security Breach & Unauthorized access or manipulation of sensitive data. & Control repository permissions, apply encryption, and use credential management tools. & ISO 27001 \\
+\hline
+Performance Degradation & Delays caused by growing dataset or resource limits. & Use batch processing and parallel computation for scalability. & ISO 9000 \\
+
+\bottomrule
+\end{tabular}
+\caption{Risk assessment and mitigation strategies.}
+\label{tab:risk_assessment}
+\end{table}
+
+\subsection{Monitoring and Response Plan}
+
+To ensure continuous system reliability, a risk monitoring plan has been integrated into the project’s workflow and version control structure.
+
+\begin{itemize}
+    \item \textbf{Testing and Validation Cycles:} The tester role performs periodic validation through predefined test cases covering data integrity, model stability, and execution time.
+    \item \textbf{Version Control Integration:} Using Git and GitHub, all changes in code or data are tracked, allowing rollback and comparison between stable and experimental versions to minimize data loss or corruption.
+    \item \textbf{Response Protocols:} If a risk materializes (e.g., downtime or data corruption), the project manager coordinates an immediate rollback to the last stable version and initiates corrective procedures
+\end{itemize}
+
+\newpage
+
+\section{Project Management Plan}
+
+The project management plan defines the structure, responsibilities, and methodologies guiding the development of the Otto Group Product Classification System. It establishes the framework for coordination, communication, and incremental progress throughout the course timeline.
+
+\subsection{Team Roles and Responsibilities}
+
+The project is developed by a multidisciplinary team of four members, each assuming a specific role aligned with their skills and the project’s systemic objectives. Table~\ref{tab:roles} summarizes the assigned responsibilities.
+
+\begin{table}[!ht]
+\centering
+
+\label{tab:roles}
+\begin{tabular}{|p{3cm}|p{3.5cm}|p{7cm}|}
+\hline
+\textbf{Role} & \textbf{Member} & \textbf{Main Responsibilities} \\ \hline
+Project Manager & Jeison Cuenca & Oversees project progress, manages deadlines, and ensures communication between team members. \\ \hline
+ Analyst & Juan Diego Lozada & Defines requirements, analyzes data, ensures consistency, and maintains system documentation \\ \hline
+Developer & Juan Pablo Mosquera & Implements and maintains code for preprocessing, simulations, and model training. \\ \hline
+Tester / Quality Engineer & María Alejandra Ortiz & Validates functionality, tests system outputs, and monitors risk mitigation strategies. \\ \hline
+\end{tabular}
+\caption{Team Roles and Responsibilities}
+\end{table}
+
+\subsection{Milestones and Deliverables}
+
+The project development follows a sequence of milestones that align with the course workshops and the incremental evolution of the system. Each milestone consolidates the progress of the analysis, design, simulation, and reporting of the system.
+
+\begin{itemize}
+    \item \textbf{Workshop 1 – System Analysis:} Identification of requirements, data constraints, and chaos-related sensitivities in the Otto Group data set.
+    \item \textbf{Workshop 2 – System Design:} Definition of modular architecture, technical stack, and systemic relationships between core components.
+    \item \textbf{Workshop 3 – Incremental Improvements:} Refinement of system design, adoption of Kanban methodology, and implementation of quality and risk management frameworks.
+    \item \textbf{Workshop 4 – System Simulation:} Development of data-driven and event-based simulations to validate system behavior, performance stability, and sensitivity under varying conditions.
+    \item \textbf{Final Project Delivery:} Integration of all workshops into a comprehensive technical report and functional prototype demonstrating full system workflow, stability, and feedback mechanisms.
+\end{itemize}
+
+\subsection{Benefits of the Kanban Approach}
+
+\noident We chose the Kanban methodology because it is practical and makes it easy to see our progress. It also helps us avoid bottlenecks, since it shows how many tasks are in progress in a very visual way. This makes it easier to spot when something is slowing down and to keep the workflow running smoothly.
+
+\begin{itemize}
+    \item Enhanced visibility and accountability of tasks.
+    \item Steady and continuous project flow.
+    \item Real-time adaptability to risks or feedback.
+    \item Balanced workload between team members.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Kanban_Board.png}
+    \caption{Example Kanban Board}
+    \label{fig:diagrama2}
+\end{figure}
+
+%Si quieren poner otros roles los ponen aqui, yo soy Analyst :D%
+
+\subsection{Project Timeline and Workflow}
+
+\subsubsection{Overview}
+
+This section outlines a feasible project timeline for the \textit{Otto Group Product Classification System}, following software engineering standards within the \textbf{System Design} phase.  
+The schedule integrates the iterative and adaptive nature of the \textbf{Kanban methodology}, emphasizing continuous feedback, quality assurance, and flexibility to handle unforeseen events.
+
+\subsubsection{Timeline Summary}
+
+\begin{table}[h!]
+\centering
+\caption{Simplified Project Timeline}
+\begin{tabular}{|p{2.8cm}|p{2cm}|p{4cm}|p{4.5cm}|}
+\hline
+\textbf{Phase} & \textbf{Weeks} & \textbf{Main Goal} & \textbf{Key Deliverables} \\
+\hline
+System Analysis & 1--2 & Identify requirements, data constraints, and systemic relationships. & Analysis report and system map. \\
+\hline
+System Design & 3--5 & Define modular architecture and control mechanisms. & Architecture document and design diagram. \\
+\hline
+Risk \& Quality Control & 6--7 & Integrate ISO/CMMI standards and Kanban workflow. & Risk plan and active Kanban board. \\
+\hline
+Simulation \& Testing & 8--10 & Validate model behavior and performance stability. & Simulation report and test metrics. \\
+\hline
+Integration \& Delivery & 11--12 & Consolidate all modules into a final system prototype. & Final report and functional prototype. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Iterative Workflow}
+
+The Kanban process ensures visibility and flexibility through stages:  
+\textbf{To Do} $\rightarrow$ \textbf{In Progress} $\rightarrow$ \textbf{Review / Testing} $\rightarrow$ \textbf{Done}.  
+Each week includes feedback sessions, validation cycles, and small task refinements.
+\ref{fig:kanban_workflow}
+
+\vspace{0.4cm}
+\noindent
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Interactive_Workflow.png}
+    \caption{Kanban workflow for the Otto Group project.}
+    \label{fig:kanban_workflow}
+\end{figure}
+
+
+\subsubsection{Continuous Feedback and Improvement}
+
+System components evolve through iterative control loops linking development, testing, and analytics.  
+When anomalies or performance drops occur, new Kanban tasks are created immediately, ensuring adaptability and ongoing quality assurance.
+\ref{fig:Feedbakc_loop}
+
+\vspace{0.4cm}
+\noindent
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{loop.png}
+    \caption{Feedbakc loop}
+    \label{fig:Feedbakc_loop}
+\end{figure}
+
+
+
+\newpage
+
+\section{Incremental Improvements}
+
+This stage of this project focuses on refining the system architecture and project management plan based on insights gathered during Workshops 1 and 2. The iterative approach adopted in this process follows the principles of systems analysis
+
+\subsection{Lessons Learned from Workshops 1 and 2}
+
+The initial workshops provided valuable understanding of both the technical and organizational aspects of system development. Workshop 1 established the analytical foundation by exploring the Otto Group dataset, identifying data structures, and defining the problem boundaries.
+
+Workshop 2 expanded this foundation through the design of a modular system architecture. The focus shifted from isolated data exploration to systemic interaction between subsystems, including data processing, feature engineering, classification, and feedback control.
+
+From these stages, three key lessons emerged:
+\begin{itemize}
+    \item \textbf{Data-driven systems require structured design.} A clear modular framework ensures that analytical components like data, features, models and remain interoperable and testable.
+    \item \textbf{Feedback mechanisms are essential for stability.} Incorporating feedback loops prevents uncontrolled variance and allows adaptation to new data or performance fluctuations.
+    \item \textbf{System documentation and control are critical.} Effective configuration management, naming conventions, and repository organization improve team coordination and system maintainability.
+\end{itemize}
+
+\subsection{Evolution of System Design and Management Plan.}
+
+\paragraph{Kanban-Based Management Approach.} 
+The project team adopted the Kanban methodology due to its practical and visual nature, which facilitates the monitoring of workflow progress and identification of potential bottlenecks. The system development process was mapped into stages such as \textit{To Do}, \textit{In Progress}, \textit{Review}, and \textit{Completed}.  
+This approach improves collaboration and ensures continuous project flow.
+
+This project management framework directly aligns with systems analysis principles—particularly the notions of feedback and continuous improvement—by making system evolution observable and controllable in real time.
+
+\paragraph{Risk and Quality Management.}
+In parallel, a risk mitigation and quality control framework was developed to ensure system reliability and data integrity. The key risks identified include data loss, model overfitting, pipeline failures, security breaches, and performance degradation. Each risk was paired with a mitigation strategy and a corresponding industry standard, as summarized in Table~\ref{tab:risk_assessment}.
+
+\paragraph{Systematic and Technical Enhancements.}
+In addition to methodological and management improvements, several systematic refinements were introduced to strengthen the project’s technical coherence and support the transition toward partial implementation.
+
+First, the system architecture was refined to achieve higher modular independence. Each subsystem \textit{Data Processing}, \textit{Feature Engineering}, \textit{Classification Engine}, and \textit{Analytics and Reporting} was clearly defined with input output interfaces. This modular separation allows each component to be tested, replaced, or scaled independently, facilitating maintainability and reducing interdependency risks.
+
+The team also established a version control strategy using \texttt{Git} and GitHub repositories to maintain code history, manage changes collaboratively, and ensure rollback capabilities in case of errors. This also aligns with the quality management framework described previously, promoting reproducibility and documentation of system evolution.
+
+\newpage
+
+\newpage
+\section{Conclusions}
+
+\begin{enumerate}
+    \item The refinement of the Otto Group Product Classification System demonstrated the importance of integrating robust design principles such as modularity, scalability, and  tolerance. Referencing international quality frameworks such as ISO 9000, CMMI, and Six Sigma, the project established a solid base for sustainable development and continuous improvement.
+
+    \item Incorporating quality and risk management processes strengthened the reliability of the system, ensure proactive control of potential failures. The identification of risks, along with clearly defined mitigation strategies and monitoring procedures, contributed to the building of a reliable and adaptive classification environment.
+
+    \item The implementation of Kanban methodology improved team coordination and workflow visibility, enabling a dynamic and iterative project management process. This approach encouraged collaboration between analyst, developer, tester and manager roles, ensuring continuous feedback, timely deliverables, and alignment of technical progress with the project’s strategic objectives, avoiding bottlenecks.
+\end{enumerate}
+
+\newpage
+\section{References}
+\begin{thebibliography}{99}
+
+\bibitem{otto2025}
+Otto Group. (2015). \textit{Otto Group Product Classification Challenge}. Kaggle. Recuperado de \url{https://www.kaggle.com/competitions/otto-group-product-classification-challenge/}
+
+\bibitem{sterman2000}
+Sterman, J. D. (2000). \textit{Business dynamics: Systems thinking and modeling for a complex world}. New York: McGraw-Hill.
+
+\bibitem{forrester1968}
+Forrester, J. W. (1968). \textit{Principles of systems}. Portland, OR: Productivity Press.
+
+\bibitem{gleick1987}
+Gleick, J. (1987). \textit{Chaos: Making a new science}. New York: Viking.
+
+\bibitem{meadows2008}
+Meadows, D. H. (2008). \textit{Thinking in systems: A primer}. White River Junction, VT: Chelsea Green Publishing.
+
+\bibitem{senge1990}
+Senge, P. M. (1990). \textit{The fifth discipline: The art and practice of the learning organization}. New York: Doubleday.
+
+\bibitem{sterman2002}
+Sterman, J. D. (2002). All models are wrong: Reflections on becoming a systems scientist. \textit{System Dynamics Review, 18}(4), 501--531.
+
+\bibitem{holland1998}
+Holland, J. H. (1998). \textit{Emergence: From chaos to order}. Oxford: Oxford University Press.
+
+\bibitem{simon1996}
+Simon, H. A. (1996). \textit{The sciences of the artificial} (3rd ed.). Cambridge, MA: MIT Press.
+
+% --- Librerías de Python ---
+
+\bibitem{harris2020}
+Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., et al. (2020). Array programming with NumPy. \textit{Nature, 585}(7825), 357--362. \url{https://doi.org/10.1038/s41586-020-2649-2}
+
+\bibitem{mckinney2010}
+McKinney, W. (2010). Data structures for statistical computing in Python. \textit{Proceedings of the 9th Python in Science Conference}, 56--61. \url{https://doi.org/10.25080/Majora-92bf1922-00a}
+
+\bibitem{pedregosa2011}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., et al. (2011). Scikit-learn: Machine learning in Python. \textit{Journal of Machine Learning Research, 12}, 2825--2830.
+
+\bibitem{hunter2007}
+Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. \textit{Computing in Science \& Engineering, 9}(3), 90--95. \url{https://doi.org/10.1109/MCSE.2007.55}
+
+\bibitem{vanrossum2009}
+Van Rossum, G., \& Drake, F. L. (2009). \textit{Python 3 reference manual}. Scotts Valley, CA: CreateSpace.
+
+% --- Sistemas y modelado ---
+
+\bibitem{checkland1999}
+Checkland, P. (1999). \textit{Systems thinking, systems practice: Includes a 30-year retrospective}. Chichester: Wiley.
+
+\bibitem{jackson2003}
+Jackson, M. C. (2003). \textit{Systems thinking: Creative holism for managers}. Chichester: Wiley.
+
+\bibitem{beer1979}
+Beer, S. (1979). \textit{The heart of enterprise}. Chichester: Wiley.
+
+\bibitem{bertalanffy1968}
+Von Bertalanffy, L. (1968). \textit{General system theory: Foundations, development, applications}. New York: George Braziller.
+
+
+\end{thebibliography}
+
+
+
+
+
+\end{document}

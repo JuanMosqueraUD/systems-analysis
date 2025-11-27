@@ -1,31 +1,61 @@
-# Systems Analysis Course
+# Systems Analysis Course - Otto Group Product Classification Challenge
 
-This repository stores all the work for the Systems Analysis course, including workshop assignments and the final project.
+This repository contains all the work for the Systems Analysis & Design course, applying systems thinking, chaos theory, and quality frameworks to solve the Otto Group Product Classification Challenge.
+
+## Project Overview
+
+The Otto Group Product Classification Challenge involves building a robust classification system for e-commerce products. The project applies systems analysis principles to handle 200,000+ products with 93 obfuscated features across 9 categories, focusing on system stability, feedback mechanisms, and adaptive behavior.
 
 ## Repository Structure
 
-### 📁 [Workshops](./workshops/)
-This folder contains all workshop assignments for the course:
+### Workshops
 
-- [Workshop 1](./workshops/workshop-1/) - Introduction and foundational concepts
-- [Workshop 2](./workshops/workshop-2/) - System requirements analysis  
-- [Workshop 3](./workshops/workshop-3/) - System design and modeling
-- [Workshop 4](./workshops/workshop-4/) - Implementation and testing strategies
+This folder contains all workshop assignments following an incremental systems development approach:
 
-### 🎯 [Final Project](./final-project/)
-This folder will contain the comprehensive final project that demonstrates the application of all course concepts.
+- [Workshop 1](./workshops/workshop-1/) - System Analysis: Element identification, complexity analysis, and chaos theory application
+- [Workshop 2](./workshops/workshop-2/) - System Design: Architecture definition, technical stack, and module integration
+- [Workshop 3](./workshops/workshop-3/) - Quality & Risk Management: ISO/CMMI frameworks, Kanban methodology, and project planning
+- [Workshop 4](./workshops/workshop-4/) - System Simulation: Behavioral validation, performance testing, and stability analysis
 
-## Course Overview
+### Final Course Project
 
-The Systems Analysis course covers the systematic approach to analyzing, designing, and implementing information systems. Through hands-on workshops and a comprehensive final project, students will learn to:
+This folder contains the comprehensive final project integrating all workshop findings into a functional system prototype with modular architecture, documentation, and implementation guidelines.
 
-- Analyze business requirements and translate them into system specifications
-- Design efficient and scalable system architectures
-- Apply industry-standard methodologies and best practices
-- Implement and test system solutions
+## Systems Analysis Approach
+
+The project applies key systems thinking principles:
+
+- **Holistic Analysis**: Understanding component interactions and emergent behavior
+- **Feedback Mechanisms**: Self-regulating loops for stability and adaptation
+- **Chaos Theory**: Addressing sensitivity to initial conditions and parameter variations
+- **Quality Frameworks**: ISO 9000, CMMI, and Six Sigma for process improvement
+- **Modular Design**: Independent, interoperable components for scalability
+
+## Technical Stack
+
+- **Python**: Core development language
+- **NumPy**: Numerical computation
+- **Pandas**: Data manipulation and analysis
+- **Scikit-learn**: Machine learning algorithms
+- **Matplotlib**: Visualization and reporting
+
+## Team Members
+
+- Juan Diego Lozada 20222020014 (Systems Analyst)
+- Juan Pablo Mosquera 20221020026 (Developer)
+- María Alejandra Ortiz Sánchez 20242020223 (Quality Engineer)
+- Jeison Felipe Cuenca 20242020043 (Project Manager)
+
+## Course Information
+
+- **Course**: Systems Analysis & Design
+- **Group**: 020-82
+- **Professor**: Carlos Andrés Sierra Virguez
+- **Institution**: Universidad Distrital Francisco José de Caldas
+- **Faculty**: Ingeniería de Sistemas
 
 ## Navigation
 
 - Browse individual workshops in the [workshops](./workshops/) directory
-- Access the final project materials in the [final-project](./final-project/) directory
-- Each workshop folder contains its own README with specific instructions and deliverables
+- Access the final project in the [Final_Course_Project](./Final_Course_Project/) directory
+- Each workshop folder contains detailed documentation and deliverables

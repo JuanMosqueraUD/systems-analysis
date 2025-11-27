@@ -1,0 +1,362 @@
+\documentclass[12pt]{article}%para decir que este documento es como un paper mas del montón, y se tiene en forma de "artículo"
+\usepackage[utf8]{inputenc}%para poder usar caracteres a lo menso
+\usepackage[english]{babel}%para que no se haga bola con el inglés
+\usepackage{geometry}%para agregar margenes, líneas y formas chidas
+\usepackage{array}%para agregar tablitas bien chachis
+\usepackage{xcolor}%para agregar coloircitos bien chachipirulis
+\usepackage{colortbl}%para agregarle colores a las palatras
+\usepackage{url}%para poder agregar urls
+\usepackage{xurl} % permite cortar URLs largas
+\usepackage{graphicx}% permite agregar imágenes a lo que marca Bv
+\usepackage{amsmath}     
+\usepackage{booktabs} %Para hacer una tabla más mela
+\usepackage{float}%para que las tablas se veasn en su lugar
+
+
+%se define las márgenes de las hojas del proyecto
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\begin{document}
+
+\begin{center}
+
+    %para hacerlo mas grande y grueso
+    {\Large \textbf{UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS }}\\[1cm]%agrega un espaciado entre esta y la siguiente línea
+    {\large \textbf{FACULTAD DE INGENIERÍA}}\\%la dobre línea es para hacer salto de línea
+    {\large Ingeniería de Sistemas}\\[2cm]
+
+    %agrega una línea
+    \rule{\textwidth}{0.4pt}\\[0.8cm]
+    {\Large \textbf{Otto Group Product Classification Challenge, System Simulation}}\\[0.8cm]
+
+    %agrega otra línea :v :v
+    \rule{\textwidth}{0.4pt}\\[2cm]
+
+    {\Large Systems Analysis \& Design}\\[1cm]
+    {\large Group 020-82}\\[1.0cm]
+    {\large Workshop \#4}\\[2.0cm]
+
+    %agrega una tabla, en este caso, de una columna
+    \begin{tabular}{>{\bfseries}c}%para que todo lo que quede en la tabla esté en negrita y la c es de Troy, ah, y de centrado
+        Students \\
+
+    %cierra la tabla
+    \end{tabular}\\[1cm]
+
+    %otra tabla centrada, aquí van los nombres de todos
+    \begin{tabular}{c}
+        Juan Diego Lozada 20222020014\\
+        Juan Pablo Mosquera 20221020026 \\
+        María Alejandra Ortiz Sánchez 20242020223\\
+        Jeison Cuenca: 20242020043 \\
+    \end{tabular}
+    \vfill % para empujar el bloque al final de la página
+
+    %muestra lo que esté dentro en negrita
+    \textbf{Professor:} Carlos Andrés Sierra Virguez \\[1cm]
+    \textbf{Date: November 2025} 
+    
+\end{center}
+
+\newpage % aquí va a ir solo la tabla de contenido en una sola hojita, para no hacernos bola
+\tableofcontents %la tabla de contenido :v (se actualiza sola)
+
+
+\newpage
+
+\section{Data Preparation}
+
+Data preparation constitutes the first fundamental step to ensure the validity of the simulations and of the designed classification system. Since the project is based on the Otto Group Product Classification Challenge, the same official datasets from Kaggle were used, publicly available under the restrictions described in the previous Workshops.
+
+\subsection{Dataset Acquisition}
+To ensure consistency with Workshop \#1, the official competition files were downloaded:
+
+\begin{itemize}
+    \item train.csv: contains 93 obfuscated numerical variables and the target column, which represents the true product class.
+    \item test.csv: contains the 93 numerical variables without labels.
+    \item sampleSubmission.csv: reference file used to generate the final predictions.
+\end{itemize}
+
+The download was performed from the Kaggle platform, and the original structure was preserved to ensure fully reproducible processing. As established in the initial analysis, the id column was kept only for the final stage of generating the output file, since it provides no predictive value and must be removed during model training.
+
+\subsection{Data Cleaning and Preprocessing}
+
+In order to preserve system stability and ensure that the later phases of the project are not affected by data anomalies, various cleaning, verification, and transformation processes were applied, in accordance with the recommendations from Workshops 1, 2, and 3.
+
+\begin{itemize}
+
+    \item \textbf{Integrity and consistency verification}\\
+    The following checks were performed:
+    \begin{itemize}
+        \item Missing values: The presence of null data in all columns was evaluated. Due to the nature of the dataset, it was confirmed that no empty values existed in any of the variables
+        \item Duplicates: The dataset was checked for duplicate rows; no repeated records were found
+        \item Identifier review: It was confirmed that the id column contains unique values, but it was excluded from the predictive variables as stipulated in the system analysis
+    \end{itemize}
+    These validations align with the quality guidelines described in Workshop 3 (ISO 9000 and data flow integrity)
+    
+    \item \textbf{Removal of non-predictive variables}\\
+    As established in Workshop \#1, the variable id does not provide useful information for the classification process, so it was removed from the training and test datasets during preprocessing. Its use was reserved exclusively for the creation of the final predictions file
+
+    \item \textbf{Normalization and scaling}\\
+    Because the 93 numerical attributes present different ranges and distributions, and considering that the system must remain stable under small variations (sensitivity described in Workshops 1 and 3), a uniform scaling method was applied to all features:
+    \begin{itemize}
+        \item A standard scaling method (StandardScaler) was used to transform each variable to mean 0 and standard deviation 1
+    \end{itemize}
+    This procedure reduces extreme variability, improves the numerical stability of the algorithms, and decreases the risk of amplifying the chaotic behavior associated with small perturbations in the data
+
+    \item \textbf{Optional dataset reduction for simulations}\\
+    With the aim of performing controlled and computationally feasible simulations, a representative subset of the original dataset was created using a stratified sample based on the target column. This allowed for:
+    \begin{itemize}
+        \item Maintain the real proportion among the 9 classes of the problem
+        \item Efficiently evaluate the complete system workflow without relying on the original 200,000 records
+        \item Control computational load during testing
+    \end{itemize}
+    This reduction does not affect the final results, since it is applied only during the simulation stage and not in the construction of the final model
+
+    \item \textbf{Dataset Summary}\\
+    Finally, a statistical characterization of the dataset was developed in order to understand its structure and conditions before the simulations:
+    \begin{itemize}
+        \item The dataset contains more than 200,000 records, each corresponding to a different product
+        \item There are 93 numerical variables, all of them obfuscated, without direct semantic meaning
+        \item No missing values or structural inconsistencies were detected.
+        \item The distribution of the target variable is not perfectly balanced, which means that some classes are overrepresented compared to others. This represents a challenge for the probabilistic calibration of the model, consistent with what was described in Workshop 1
+        \item The numerical variables exhibit heterogeneous amplitudes and scales, which fully justifies the need for the applied normalization process
+    \end{itemize}
+    This characterization is essential both for the construction of the model and for the systemic interpretation of the behavior of the dataset, especially regarding the sensitivity and stability of the system analyzed previously
+\end{itemize}
+
+\newpage
+
+\section{Simulation Planning}
+
+\subsection{Scenario 1: Data-driven Simulation}
+
+\textbf{Objective}\\
+Simulate the full training/validation/prediction cycle as in the Otto competition to evaluate: performance (logloss), probability calibration, stability under small preprocessing changes, and the computational power required\\[0.5cm]
+\textbf{Used components}
+\begin{itemize}
+    \item Data Processing: loading, cleaning, scaling (StandardScaler)
+    \item Feature Engineering: optional PCA or aggregated statistics
+    \item Classification Engine: ML models (Random Forest, MLP, and a boosting model if desired)
+    \item Analytics \& Reporting: validation curves, confusion matrix, calibration, logloss
+    \item Monitoring/Logging: record seeds, timings, memory usage, parameters (see Workshop 3)
+\end{itemize}
+\textbf{Concrete pipeline}
+\begin{enumerate}
+    \item \textbf{Loading and splits:}
+    \begin{itemize}
+        \item Load train.csv. Remove id
+        \item create split: stratified k-fold (k=5) for robust validation (avoids leaderboard overfitting)
+        \item Keep a final holdout (10\% of the train) if you want an extra control
+    \end{itemize}
+    \item \textbf{Preprocessing:}
+    \begin{itemize}
+        \item Imputation: if there are nulls (probably not), use the mean
+        \item Scaling: StandardScaler() applied using only the parameters from the training fold
+        \item (Optional) PCA: test reducing to n\_components = 20 and compare with using the full feature set
+    \end{itemize}
+    \item \textbf{Models to be simulated:}
+    \begin{itemize}
+        \item Baseline 1: Logistic Regression (multiclass, softmax)
+        \item Baseline 2: RandomForestClassifier (scikit-learn)
+        \item Strong model: MLPClassifier (layers: [256,128], relu activation) or XGBoost/LightGBM if the environment allows it
+        \item Final ensemble: probability averaging (soft voting) among the best models
+    \end{itemize}
+    \item \textbf{Training/hyperparameters:}
+    \begin{itemize}
+        \item RandomForest: n\_estimators $\in \{100, 300\}, max\_depth \in \{None, 10, 20\}$
+        \item MLP: epochs 50–200, early\_stopping=True, batch\_size 256, lr 1e-3
+        \item (If we used boosting) Go 0.05, n\_estimators 500 with early stopping in CV
+    \end{itemize}
+    \item \textbf{Probability calibration:}
+    \begin{itemize}
+        \item Apply Platt scaling (LogisticCalibration) or IsotonicRegression using cross-validation to improve logloss, as advised in the Workshops
+    \end{itemize}
+    \item \textbf{Evaluation:}
+    \begin{itemize}
+        \item Primary metric: multiclass log loss (same as Kaggle)
+        \item Secondary metrics: Top-1 accuracy, Brier score, reliability curve (calibration curve)
+        \item Logging: log loss per fold, mean and standard deviation
+    \end{itemize}
+    \item \textbf{Sensitivity experiments:}
+    \begin{itemize}
+        \item Vary: scaling (Standard vs MinMax), PCA (20 vs 50 vs none), sample size (10k vs 50k vs full), RNG seeds
+        \item For each variation, record the change in log loss and the variance across runs — this measures sensitivity (topic of your workshops)
+    \end{itemize}
+    \item \textbf{Outputs:}
+    \begin{itemize}
+        \item Prediction file (id + 9 probabilities) for test if you want to simulate a ‘Kaggle submission’ (not actually upload)
+        \item Plots: learning curve, calibration curve, average confusion matrix, feature importance (for RF)
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Scenario 2: Event-based Simulation}
+\textbf{Objective:}\\
+Model interactions, feedback (leaderboard/adjustments), noise, and the propagation of misclassification across a population of products to observe emergent behaviors: category stability, formation of erroneous ‘clusters,’ and the effect of small perturbations (chaos/sensitivity)\\\\
+\textbf{Why cellular automaton?:}\\
+Our workshops emphasize sensitivity, feedback, and chaotic dynamics. A cellular automaton (CA) is ideal for modeling local state, interaction between neighbors, and the propagation of changes (emergence); moreover, it is simple to implement and visualize\\\\
+\textbf{Modeling concept (correspondence map):}
+
+\begin{itemize}
+    \item Cell = a product (or a group of similar products if the dataset is large)
+    \item Cell state = probability vector over 9 classes (or a label + confidence)
+    \item Neighborhood = “similar” products by distance in feature space (k-NN with small k) or geographical neighbors on a grid if visually represented
+    \item Update rules = combine local evidence (features) + neighbor influence + stochastic noise + possible corrections (analytics feedback)
+\end{itemize}
+\textbf{CA Variables and parameters}
+\begin{itemize}
+    \item p\_i(t) = probability vector for cell i at time t
+    \item alpha (self-confidence): weight of own evidence (ML model) vs neighbors
+    \item beta (diffusion): intensity of neighborhood influence
+    \item gamma (noise): probability of random mutation in the prediction (simulates input errors)
+    \item tau (calibration step frequency): every tau steps, global or partial recalibration is applied (simulates human intervention / model adjustment)
+\end{itemize}
+\textbf{Update rule (example)}
+For each cell i at each step t:
+\begin{itemize}
+    \item Obtain: p\_own = model\_predict\_proba(features\_i) (fixed or with slight randomness)
+    \item Compute p\_neighbors = mean\_j $\in$ N(i) p\_j(t) (average of neighbors)
+    \item Update: where noise is a vector with sum 0 and magnitude controlled by gamma %aquí va una parte del código en mathLab :v
+    \item Every tau steps, apply global calibration: shift p\_i(t+1) towards the real marginal distribution (or retrain a “meta-model” if leaderboard feedback is being simulated)
+\end{itemize}
+\textbf{Scenarios to test in CA}
+\begin{itemize}
+    \item Scenario A: low diffusion (beta=0.1), low noise (gamma=0.01) → stability expected
+    \item Scenario B: high diffusion (beta=0.8), moderate noise (gamma=0.05) → dominant clusters will emerge, possible error propagation
+    \item Scenario C: introduce intervention every tau steps (calibration) to observe whether stability is restored
+\end{itemize}
+\textbf{Event-based metrics}
+\begin{itemize}
+    \item Mean entropy of p\_i distributions (measures global uncertainty)
+    \item Purity/cluster coherence: how homogeneous neighbor groups are
+    \item Mutation rate: percentage of cells that change dominant class per step
+    \item Relaxation time: steps needed to return to a stable state after a perturbation
+    \item Emergent pattern index: frequency of appearance of regions dominated by class X
+\end{itemize}
+
+
+\subsection{Alignment with the architecture}
+
+\begin{table}[H]%para hacer una tabla bien perronsísima
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|}
+\centering
+\hline
+\textbf{Architectural module} & \textbf{ML sim} & \textbf{Event sim} \\ \hline
+Data Processing & Scaling and sampling & Same (automaton inputs) \\ \hline
+Feature Engineering & PCA/aggregates & kNN for neighborhood (uses features) \\ \hline
+Classification Engine & Trained models (RF, MLP) & model\_predict\_proba is used as local evidence \\ \hline
+Analytics \& Reporting & Curves, logloss, calibration & Entropy, cluster metrics, time series plots \\ \hline
+Monitoring/Logging & Times, memory, seeds & Logging of steps, emergent patterns, snapshots \\ \hline
+\end{tabular}
+}
+\caption{Alignment with the architecture}
+\label{tab:Alignment with the architecture}
+\end{table}
+
+
+\subsection{Constraints, resources, and limits}
+
+\textbf{Constraints derived from Kaggle}
+\begin{itemize}
+    \item Do not use external data (according to the rules in your PDFs), use only the provided train/test sets
+    \item Number of submissions to Kaggle is not applicable in simulation, but reproducibility should be considered
+\end{itemize}
+\textbf{Computational limits (practical suggestions)}
+\begin{itemize}
+    \item If working on a laptop: avoid full datasets in heavy training; use a stratified sample (10k–50k)
+    \item On server/GPU: you can train MLP/boosting on the full dataset
+    \item Resource logging: measure time per epoch, memory and CPU consumption
+\end{itemize}
+\textbf{Recommended test scale}
+\begin{itemize}
+    \item Quick test (dev): 10k samples, 5 folds, lightweight models (LR, RF-100)
+    \item Intermediate test: 50k samples, MLP, RF-300, PCA 20
+    \item Final test (benchmark): full train (~200k), ensemble, calibration
+\end{itemize}
+
+
+\newpage
+
+\section{Simulation Implementation}
+
+\newpage
+
+\section{Executing the Simulations}
+
+\newpage
+
+\section{Conclusions}
+
+\newpage
+
+\section{References}
+\begin{thebibliography}{99}
+
+\bibitem{otto2025}
+Otto Group. (2015). \textit{Otto Group Product Classification Challenge}. Kaggle. Recuperado de \url{https://www.kaggle.com/competitions/otto-group-product-classification-challenge/}
+
+\bibitem{sterman2000}
+Sterman, J. D. (2000). \textit{Business dynamics: Systems thinking and modeling for a complex world}. New York: McGraw-Hill.
+
+\bibitem{forrester1968}
+Forrester, J. W. (1968). \textit{Principles of systems}. Portland, OR: Productivity Press.
+
+\bibitem{gleick1987}
+Gleick, J. (1987). \textit{Chaos: Making a new science}. New York: Viking.
+
+\bibitem{meadows2008}
+Meadows, D. H. (2008). \textit{Thinking in systems: A primer}. White River Junction, VT: Chelsea Green Publishing.
+
+\bibitem{senge1990}
+Senge, P. M. (1990). \textit{The fifth discipline: The art and practice of the learning organization}. New York: Doubleday.
+
+\bibitem{sterman2002}
+Sterman, J. D. (2002). All models are wrong: Reflections on becoming a systems scientist. \textit{System Dynamics Review, 18}(4), 501--531.
+
+\bibitem{holland1998}
+Holland, J. H. (1998). \textit{Emergence: From chaos to order}. Oxford: Oxford University Press.
+
+\bibitem{simon1996}
+Simon, H. A. (1996). \textit{The sciences of the artificial} (3rd ed.). Cambridge, MA: MIT Press.
+
+% --- Librerías de Python ---
+
+\bibitem{harris2020}
+Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., et al. (2020). Array programming with NumPy. \textit{Nature, 585}(7825), 357--362. \url{https://doi.org/10.1038/s41586-020-2649-2}
+
+\bibitem{mckinney2010}
+McKinney, W. (2010). Data structures for statistical computing in Python. \textit{Proceedings of the 9th Python in Science Conference}, 56--61. \url{https://doi.org/10.25080/Majora-92bf1922-00a}
+
+\bibitem{pedregosa2011}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., et al. (2011). Scikit-learn: Machine learning in Python. \textit{Journal of Machine Learning Research, 12}, 2825--2830.
+
+\bibitem{hunter2007}
+Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. \textit{Computing in Science \& Engineering, 9}(3), 90--95. \url{https://doi.org/10.1109/MCSE.2007.55}
+
+\bibitem{vanrossum2009}
+Van Rossum, G., \& Drake, F. L. (2009). \textit{Python 3 reference manual}. Scotts Valley, CA: CreateSpace.
+
+% --- Sistemas y modelado ---
+
+\bibitem{checkland1999}
+Checkland, P. (1999). \textit{Systems thinking, systems practice: Includes a 30-year retrospective}. Chichester: Wiley.
+
+\bibitem{jackson2003}
+Jackson, M. C. (2003). \textit{Systems thinking: Creative holism for managers}. Chichester: Wiley.
+
+\bibitem{beer1979}
+Beer, S. (1979). \textit{The heart of enterprise}. Chichester: Wiley.
+
+\bibitem{bertalanffy1968}
+Von Bertalanffy, L. (1968). \textit{General system theory: Foundations, development, applications}. New York: George Braziller.
+
+
+\end{thebibliography}
+
+
+
+
+
+\end{document}

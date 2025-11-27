@@ -1,0 +1,285 @@
+\documentclass[12pt]{article}%para decir que este documento es como un paper mas del montón, y se tiene en forma de "artículo"
+\usepackage[utf8]{inputenc}%para poder usar caracteres a lo menso
+\usepackage[english]{babel}%para que no se haga bola con el inglés
+\usepackage{geometry}%para agregar margenes, líneas y formas chidas
+\usepackage{array}%para agregar tablitas bien chachis
+\usepackage{xcolor}%para agregar coloircitos bien chachipirulis
+\usepackage{colortbl}%para agregarle colores a las palatras
+\usepackage{url}%para poder agregar urls
+\usepackage{xurl} % permite cortar URLs largas
+\usepackage{graphicx}% permite agregar imágenes a lo que marca Bv
+\usepackage{amsmath}     
+
+%se define las márgenes de las hojas del proyecto
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\begin{document}
+
+\begin{center}
+
+    %para hacerlo mas grande y grueso
+    {\Large \textbf{UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS }}\\[1cm]%agrega un espaciado entre esta y la siguiente línea
+    {\large \textbf{FACULTAD DE INGENIERÍA}}\\%la dobre línea es para hacer salto de línea
+    {\large Ingeniería de Sistemas}\\[2cm]
+
+    %agrega una línea
+    \rule{\textwidth}{0.4pt}\\[0.8cm]
+    {\Large \textbf{Otto Group Product Classification Challenge, A System Design}}\\[0.8cm]
+
+    %agrega otra línea :v :v
+    \rule{\textwidth}{0.4pt}\\[2cm]
+
+    {\Large Systems Analysis \& Design}\\[1cm]
+    {\large Group 020-82}\\[1.0cm]
+    {\large Workshop \#2}\\[2.0cm]
+
+    %agrega una tabla, en este caso, de una columna
+    \begin{tabular}{>{\bfseries}c}%para que todo lo que quede en la tabla esté en negrita y la c es de Troy, ah, y de centrado
+        Students \\
+
+    %cierra la tabla
+    \end{tabular}\\[1cm]
+
+    %otra tabla centrada, aquí van los nombres de todos
+    \begin{tabular}{c}
+        Juan Diego Lozada 20222020014\\
+        Juan Pablo Mosquera 20221020026 \\
+        María Alejandra Ortiz Sánchez 20242020223\\
+        Jeison Felipe Cuenca: 20242020043 \\
+    \end{tabular}
+    \vfill % para empujar el bloque al final de la página
+
+    %muestra lo que esté dentro en negrita
+    \textbf{Professor:} Carlos Andrés Sierra Virguez \\[1cm]
+    \textbf{Date: October 2025} 
+    
+\end{center}
+
+\newpage % aquí va a ir solo la tabla de contenido en una sola hojita, para no hacernos bola
+\tableofcontents %la tabla de contenido :v (se actualiza sola)
+
+
+\newpage
+
+\section{Workshop \#1 Review}
+
+    \subsection{Summary of System Analysis Outcomes}  
+    The first workshop allowed us to understand the Otto Group Product Classification Challenge as a complex information system where several interacting components determine the system’s overall behavior. The analysis identified critical constraints related to the nature of the data, the evaluation metric, and the competition’s procedural rules. The system depends on large volumes of numerical data with unknown meaning, which limits the direct use of domain knowledge and forces the design of general, data-oriented processing methods. Another key constraint is the requirement that probability predictions must be accurate and consistent, since the evaluation metric penalizes uncertainty or overconfidence.
+
+    \subsection{Data Characteristics}  
+    The dataset contains more than 200,000 product records described by 93 numerical variables. These features do not have explicit labels, which introduces uncertainty about their interpretation and relationships. In addition, the product categories are not evenly distributed, producing an unbalanced system that must be carefully managed to avoid biased results. Because of the data volume and complexity, the system must include mechanisms for efficient processing, error detection, and validation of outputs.
+
+    \subsection{Chaos-Theory and Sensitivity Factors}  
+    During the analysis, it was observed that small changes in data handling, validation methods, or parameter selection can cause noticeable variations in results. This sensitivity suggests that the system behaves in a non-linear way, similar to what is described in chaos theory: minor modifications may lead to unexpected or amplified effects. Furthermore, the feedback process between internal validation and the public competition results introduces dynamic interactions that affect the model’s stability and make prediction behavior less predictable.
+
+    \subsection{Design Implications}  
+    The design ideas for the next stage should directly respond to these findings. It is necessary to emphasize the stability of the system, ensuring that data flows, model configurations, and evaluation processes are consistent and traceable. Simplifying the data processing steps, establishing clear validation criteria, and managing uncertainty are essential actions. Additionally, the design must include strategies to monitor performance variations and minimize the effect of random or chaotic behavior on the overall system response.
+\newpage
+
+\section{System Requirements}
+
+
+
+    \subsection{Design Requirements:}  
+    From the system analysis carried out in Workshop \#1, the Otto Group Product Classification system is characterized by high dimensionality, data obfuscation, and the need for consistent classification under probabilistic evaluation. Based on these conditions, several measurable requirements can be defined:
+
+    \begin{itemize}
+        \item \textbf{Performance:} The system must process and classify more than 200,000 product records efficiently, maintaining acceptable response times during model training and evaluation. The data pipeline should support batch operations and parallel computation to reduce latency.
+        
+        \item \textbf{Reliability:} The classification process must produce stable and reproducible results under equivalent configurations. Small perturbations in data input or parameters should not cause significant deviations in the final predictions, ensuring systemic robustness.
+        
+        \item \textbf{Accuracy and Calibration:} Since the competition metric depends on probabilistic output, the system must generate well-calibrated probability distributions across all categories, minimizing overconfidence and improving prediction coherence.
+        
+        \item \textbf{Scalability:} The design should allow for incremental data updates or integration with larger datasets without requiring complete retraining. This ensures adaptability and system growth over time.
+        
+        \item \textbf{Traceability:} All stages of preprocessing, model configuration, and validation must be documented and traceable, enabling verification and future replication of results.
+    \end{itemize}
+
+    \subsection{User-Centric and Systemic Considerations:}  
+    Even though the primary objective of the system is data classification, user-oriented and systemic properties remain essential for practical deployment:
+
+    \begin{itemize}
+        \item \textbf{Ease of Use:} Interfaces or configuration files should allow users to adjust parameters and execute the system without requiring deep technical intervention, improving accessibility.
+        
+        \item \textbf{Interpretability:} Despite the data being obfuscated, the system should include mechanisms to visualize and analyze relationships between variables and outputs, supporting decision-making and system understanding.
+        
+        \item \textbf{Security and Data Integrity:} Input and output data must be managed through controlled access and versioning mechanisms to prevent corruption or unauthorized manipulation.
+        
+        \item \textbf{System Stability and Feedback Control:} In alignment with systems theory principles, the system must include internal feedback loops to monitor deviations like performance drops or instability and self-adjust to maintain operational equilibrium.
+        
+        \item \textbf{Maintainability:} The architecture must allow modular updates of preprocessing components, model configurations, or evaluation metrics without affecting the global functionality.
+    \end{itemize}
+
+    Overall, these requirements integrate the findings from Workshop \#1 with a systemic design vision. The system must balance computational performance with structural stability, ensuring a controlled, observable, and adaptable classification environment.
+
+
+\newpage
+
+\section{Problem Architecture}
+
+\subsection{Prototype Architecture}
+
+The next figure shows the high-level architecture of the proposed unsupervised learning system for e-commerce product classification. The system aims to automatically group and categorize products based on their inherent characteristics without the need for labeled data. This architecture provides a structured pipeline that includes data processing, feature extraction, model execution, and analytical evaluation.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{Arquitecture.jpg}
+    \caption{High-Level Architecture}
+    \label{fig:diagrama1}
+\end{figure}
+
+The architecture consists of the following components:
+
+\begin{itemize}
+    \item \textbf{Product Input:} This component represents the entry point of the system. It gathers raw product data from multiple sources such as product listings, images, textual descriptions, and metadata. This diverse input is essential for the classification process.
+    
+    \item \textbf{Data Processing:} The data processing module prepares the input data by cleaning, normalizing, and transforming it into a consistent format. Tasks include handling missing values, text tokenization, and encoding of categorical or numerical attributes to ensure data quality and usability.
+    
+    \item \textbf{Classification Engine:} This is the core of the unsupervised learning process. It applies algorithms such as K-Means, DBSCAN, or hierarchical clustering to group similar products. The classification engine detects patterns and forms product clusters based on shared characteristics.
+    
+    \item \textbf{Feature Engineering:} In this stage, relevant features are extracted or constructed to enhance model performance. Examples include text embeddings from product descriptions, image features from convolutional networks, and numerical feature scaling. Well-engineered features allow for better discrimination between product categories.
+    
+    \item \textbf{Analytics and Reporting:} This component provides analysis, metrics, and visualization of the classification outcomes. It supports evaluation of clustering quality and generates business insights such as product trends, anomalies, or emerging categories.
+    
+    \item \textbf{Output Target File:} The final output of the system consists of structured files containing classified product data. These files can be integrated into other systems, such as recommendation engines, search filters, or inventory management tools, to improve decision-making and user experience.
+\end{itemize}
+
+This architecture ensures a scalable and adaptive framework capable of evolving with the continuous flow of product information in e-commerce environments, while maintaining accuracy and operational efficiency.
+
+
+
+\newpage
+
+\section{Addresing Sensitivity And Chaos}
+
+
+    \subsection{Systemic Sensitivity and Feedback:}  
+    The architecture proposed for the Otto Group Product Classification system, shown in Figure, represents a dynamic process where each component depends on the accuracy and consistency of its predecessors. Due to the obfuscated and high-dimensional nature of the data, small changes in preprocessing parameters, input distributions, or feature selection can propagate through the system and significantly alter the final classification. This illustrates the system’s sensitivity to initial conditions, a characteristic aligned with chaos theory in complex systems.
+
+    To mitigate these effects, the architecture incorporates feedback connections between the \textit{Classification Engine}, \textit{Feature Engineering}, and \textit{Analytics and Reporting} modules. These feedback loops act as stabilizing mechanisms that allow continuous monitoring of system outputs and performance indicators. When deviations or anomalies are detected for example, unexpected accuracy variations or overfitting signs, the feedback allows reconfiguration of parameters to restore balance and maintain system reliability.
+
+    \subsection{Stability and Control Strategies:}  
+    Sensitivity is addressed through structured data validation and modular control. The \textit{Data Processing} stage ensures normalization and consistency of inputs to minimize random perturbations. The \textit{Feature Engineering} component try a verification to prevent instability in downstream modules. Finally, the \textit{Analytics and Reporting} unit provides real-time performance metrics, serving as a control center that supports decision-making and dynamic adjustment of model parameters.
+
+    These elements together form a self-regulating system capable of adapting to data variability without losing coherence in outputs.
+
+    \subsection{System Adaptability and Learning:}  
+    Recognizing that uncertainty and randomness cannot be completely eliminated, the architecture is designed to learn from its operational environment. The iterative flow between modules allows the system to update feature transformations and calibration processes based on performance results. This adaptive behavior aligns with the concept of open systems, where continuous interaction with external data enables evolution and resilience over time.
+
+    \subsection{Conclusion:}  
+    Addressing chaos and sensitivity in this architecture involves combining feedback control, monitoring, and adaptability. Instead of attempting to remove uncertainty, the design integrates it as part of the system’s natural dynamics, ensuring robustness through observation, correction, and systemic balance.
+
+
+\newpage
+
+\section{Technical Stack and Implementation}
+
+
+    \subsection{Programming Environment:}  
+    The implementation will be developed in Python, due to its versatility, readability, and extensive ecosystem for data analysis and machine learning. Python provides modularity and supports integration between data processing, model training, and reporting components, which aligns with the system’s need for flexibility and maintainability.
+
+    \subsection{Core Libraries and Tools:}
+    \begin{itemize}
+        \item \textbf{NumPy:} Used for numerical computation and efficient matrix operations. It provides the foundation for all data manipulation tasks, ensuring fast and stable arithmetic operations during preprocessing and feature transformation.
+
+        \item \textbf{Pandas:} Facilitates structured data management, cleaning, and transformation. It enables the creation of reproducible data pipelines that integrate directly into the \textit{Data Processing} module of the system.
+
+        \item \textbf{Scikit-learn:} Serves as the main library for model development and evaluation. It offers a wide range of classification algorithms, preprocessing utilities, cross-validation tools, and model calibration functions, fitting the requirements of performance, reliability, and interpretability.
+
+        \item \textbf{Matplotlib:} Used for visualization in the \textit{Analytics and Reporting} component. These libraries allow graphical monitoring of performance metrics, correlations, and validation curves, supporting systemic feedback and reporting loops.
+
+    \end{itemize}
+
+    \subsection{System integration}
+     Each component of the technical stack contributes to the modular structure of the architecture. The data flow begins with NumPy and Pandas for preprocessing, continues through Scikit-learn for classification and feature engineering, and concludes with visualization libraries for analysis and feedback. This modular approach ensures interoperability, reduces coupling, and simplifies maintenance.
+\vspace{0.5cm}
+
+The implementation will follow a modular approach aligned with the system architecture defined in the figure. Each module \textit{Data Processing}, \textit{Feature Engineering}, \textit{Classification Engine}, and \textit{Analytics and Reporting} will be developed as an independent but interoperable component. This structure allows distributed development and facilitates maintenance or future scalability.
+The general data flow follows a pipeline structure, where each stage processes and passes results to the next component. This pattern promotes modularity, scalability, and reusability, especially for preprocessing and training stages.
+        
+\newpage
+\section{Conclusions}
+
+The development of \textit{Workshop \#2: Otto Group Product Classification Challenge, a System Design} enabled a systemic understanding of the product classification problem by integrating concepts from systems analysis, chaos theory, and adaptive architecture design. Through the construction of the model and the definition of functional and non-functional requirements, the main factors affecting the stability, reliability, and performance of the system were identified.
+
+First, it was observed that the nonlinear and high-dimensional nature of the data introduces significant sensitivity to small variations in preprocessing or parameter selection. This finding confirms the applicability of chaos theory principles in machine learning environments, where feedback and internal control are essential to maintain systemic coherence.
+
+Second, the proposed modular and interoperable architecture proved to be an effective strategy to ensure scalability, traceability, and maintainability. The use of libraries such as \texttt{NumPy}, \texttt{Pandas}, \texttt{Scikit-learn}, and \texttt{Matplotlib} enabled a consistent, reproducible, and visually monitored data flow, strengthening the principles of systemic observability and control.
+
+Additionally, the inclusion of feedback mechanisms among the \textit{Feature Engineering}, \textit{Classification Engine}, and \textit{Analytics and Reporting} modules enhanced the adaptive learning capacity of the system, allowing for automatic adjustments in response to environmental changes or data variations.
+
+In conclusion, the integration of systems thinking with data-driven design provides a solid foundation for building robust and sustainable solutions in highly complex environments. This approach not only improves the technical performance of the system but also promotes a holistic understanding of the interdependencies that characterize automated classification processes. For future work, the inclusion of deep learning techniques and more advanced self-evaluation mechanisms is suggested to increase precision and stability under dynamic and heterogeneous data conditions.
+
+
+
+
+\newpage
+\section{References}
+\begin{thebibliography}{99}
+
+\bibitem{otto2025}
+Otto Group. (2015). \textit{Otto Group Product Classification Challenge}. Kaggle. Recuperado de \url{https://www.kaggle.com/competitions/otto-group-product-classification-challenge/}
+
+\bibitem{sterman2000}
+Sterman, J. D. (2000). \textit{Business dynamics: Systems thinking and modeling for a complex world}. New York: McGraw-Hill.
+
+\bibitem{forrester1968}
+Forrester, J. W. (1968). \textit{Principles of systems}. Portland, OR: Productivity Press.
+
+\bibitem{gleick1987}
+Gleick, J. (1987). \textit{Chaos: Making a new science}. New York: Viking.
+
+\bibitem{meadows2008}
+Meadows, D. H. (2008). \textit{Thinking in systems: A primer}. White River Junction, VT: Chelsea Green Publishing.
+
+\bibitem{senge1990}
+Senge, P. M. (1990). \textit{The fifth discipline: The art and practice of the learning organization}. New York: Doubleday.
+
+\bibitem{sterman2002}
+Sterman, J. D. (2002). All models are wrong: Reflections on becoming a systems scientist. \textit{System Dynamics Review, 18}(4), 501--531.
+
+\bibitem{holland1998}
+Holland, J. H. (1998). \textit{Emergence: From chaos to order}. Oxford: Oxford University Press.
+
+\bibitem{simon1996}
+Simon, H. A. (1996). \textit{The sciences of the artificial} (3rd ed.). Cambridge, MA: MIT Press.
+
+% --- Librerías de Python ---
+
+\bibitem{harris2020}
+Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., et al. (2020). Array programming with NumPy. \textit{Nature, 585}(7825), 357--362. \url{https://doi.org/10.1038/s41586-020-2649-2}
+
+\bibitem{mckinney2010}
+McKinney, W. (2010). Data structures for statistical computing in Python. \textit{Proceedings of the 9th Python in Science Conference}, 56--61. \url{https://doi.org/10.25080/Majora-92bf1922-00a}
+
+\bibitem{pedregosa2011}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., et al. (2011). Scikit-learn: Machine learning in Python. \textit{Journal of Machine Learning Research, 12}, 2825--2830.
+
+\bibitem{hunter2007}
+Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. \textit{Computing in Science \& Engineering, 9}(3), 90--95. \url{https://doi.org/10.1109/MCSE.2007.55}
+
+\bibitem{vanrossum2009}
+Van Rossum, G., \& Drake, F. L. (2009). \textit{Python 3 reference manual}. Scotts Valley, CA: CreateSpace.
+
+% --- Sistemas y modelado ---
+
+\bibitem{checkland1999}
+Checkland, P. (1999). \textit{Systems thinking, systems practice: Includes a 30-year retrospective}. Chichester: Wiley.
+
+\bibitem{jackson2003}
+Jackson, M. C. (2003). \textit{Systems thinking: Creative holism for managers}. Chichester: Wiley.
+
+\bibitem{beer1979}
+Beer, S. (1979). \textit{The heart of enterprise}. Chichester: Wiley.
+
+\bibitem{bertalanffy1968}
+Von Bertalanffy, L. (1968). \textit{General system theory: Foundations, development, applications}. New York: George Braziller.
+
+
+\end{thebibliography}
+
+
+
+
+
+\end{document}
