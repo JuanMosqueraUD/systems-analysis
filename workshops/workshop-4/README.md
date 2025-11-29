@@ -2,6 +2,16 @@
 
 This folder contains the work for Workshop 4 of the Systems Analysis course, focusing on system simulation, behavioral validation, and performance testing.
 
+## Implementation
+
+**Note**: The complete model training implementation and source code are located in the [Final Course Project](../../Final_Course_Project/) folder, specifically in the `src/` directory.
+
+This folder (`Workshop_4_simulation/`) contains:
+- `training_summary.json`: Complete training metrics and model evaluation results
+- `submission.csv`: Kaggle submission file with predictions for the test dataset
+
+For running simulations and training models, please refer to the [Final Course Project documentation](../../Final_Course_Project/README.md).
+
 ## Objectives
 
 - Develop data-driven simulations to validate system behavior
@@ -33,14 +43,6 @@ This folder contains the work for Workshop 4 of the Systems Analysis course, foc
 - **Robustness**: Graceful handling of errors and edge cases
 - **Scalability**: Performance maintained with larger datasets
 
-## Testing Scenarios
-
-1. Normal operation with complete data
-2. Missing or corrupted data handling
-3. Extreme parameter values
-4. High-volume data processing
-5. Concurrent component execution
-6. Recovery from failures
 
 ## Team Members
 
@@ -51,8 +53,12 @@ This folder contains the work for Workshop 4 of the Systems Analysis course, foc
 
 ## Deliverables
 
-- Simulation implementation and results
-- Performance metrics and analysis
-- Validation report
-- Test case documentation
-- Recommendations for final integration
+- `Workshop_4_simulation/training_summary.json`: Model training metrics and evaluation results
+- `Workshop_4_simulation/submission.csv`: Kaggle competition submission file
+- Complete implementation available in [Final Course Project](../../Final_Course_Project/src/)
+
+## Links
+
+- [Final Course Project Source Code](../../Final_Course_Project/src/)
+- [Final Course Project Documentation](../../Final_Course_Project/README.md)
+- [Usage Examples](../../Final_Course_Project/USAGE_EXAMPLES.md)
