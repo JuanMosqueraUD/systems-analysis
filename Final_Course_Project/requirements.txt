@@ -12,5 +12,8 @@ xgboost>=1.5.0  # Gradient boosting (optional but recommended)
 # Visualization (optional, for analysis)
 matplotlib>=3.4.0
 
+# Web Interface
+flask>=2.3.0
+
 
 
