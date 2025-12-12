@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otto Classification Pipeline</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Otto Group Product Classification</h1>
+            <p class="subtitle">Machine Learning Pipeline Interface</p>
+        </header>
+
+        <div class="control-panel">
+            <div class="command-section">
+                <label for="command">Pipeline Command:</label>
+                <input 
+                    type="text" 
+                    id="command" 
+                    value="src/main.py"
+                    placeholder="src/main.py --models xgboost"
+                >
+                <div class="button-group">
+                    <button id="runBtn" class="btn btn-primary">Run Pipeline</button>
+                    <button id="stopBtn" class="btn btn-danger" disabled>Stop</button>
+                </div>
+            </div>
+
+            <div class="quick-commands">
+                <h3>Quick Commands:</h3>
+                <div class="command-buttons">
+                    <button class="cmd-btn" data-cmd="src/main.py">Default (All Models)</button>
+                    <button class="cmd-btn" data-cmd="src/main.py --models xgboost">XGBoost Only</button>
+                    <button class="cmd-btn" data-cmd="src/main.py --models random_forest xgboost mlp">Top 3 Models</button>
+                    <button class="cmd-btn" data-cmd="src/main.py --no-calibration">No Calibration</button>
+                    <button class="cmd-btn" data-cmd="src/main.py --no-ensemble">No Ensemble</button>
+                    <button class="cmd-btn" data-cmd="src/main.py --pca --n-components 50">With PCA</button>
+                    <button class="cmd-btn" data-cmd="src/main.py --models xgboost --no-calibration --no-ensemble --no-save">Fast Test</button>
+                    <button class="cmd-btn" data-cmd="src/main.py --models xgboost mlp --no-calibration --output-dir quick_exp">Quick Experiment</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar" id="statusBar">
+            <span class="status-indicator" id="statusIndicator">●</span>
+            <span id="statusText">Ready</span>
+        </div>
+
+        <div class="log-section">
+            <div class="log-header">
+                <h2>Execution Log</h2>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+            <div id="logContainer" class="log-container"></div>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2>Results</h2>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const commandInput = document.getElementById('command');
+        const runBtn = document.getElementById('runBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const logContainer = document.getElementById('logContainer');
+        const statusBar = document.getElementById('statusBar');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsContent = document.getElementById('resultsContent');
+        const cmdButtons = document.querySelectorAll('.cmd-btn');
+
+        let eventSource = null;
+        let isRunning = false;
+
+        // Quick command buttons
+        cmdButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                commandInput.value = btn.dataset.cmd;
+            });
+        });
+
+        // Run button
+        runBtn.addEventListener('click', async () => {
+            const command = commandInput.value.trim();
+            if (!command) {
+                alert('Please enter a command');
+                return;
+            }
+
+            try {
+                const response = await fetch('/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    alert(error.error || 'Failed to start pipeline');
+                    return;
+                }
+
+                startLogStream();
+            } catch (error) {
+                alert('Error starting pipeline: ' + error.message);
+            }
+        });
+
+        // Stop button
+        stopBtn.addEventListener('click', async () => {
+            try {
+                await fetch('/stop', { method: 'POST' });
+            } catch (error) {
+                console.error('Error stopping pipeline:', error);
+            }
+        });
+
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            logContainer.innerHTML = '';
+        });
+
+        // Start log streaming
+        function startLogStream() {
+            if (eventSource) {
+                eventSource.close();
+            }
+
+            setRunningState(true);
+            resultsSection.style.display = 'none';
+
+            eventSource = new EventSource('/stream');
+
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+
+                if (data.log) {
+                    appendLog(data.log);
+                } else if (data.done) {
+                    eventSource.close();
+                    setRunningState(false);
+                    loadResults();
+                }
+            };
+
+            eventSource.onerror = () => {
+                eventSource.close();
+                setRunningState(false);
+                appendLog('Connection to server lost', 'error');
+            };
+        }
+
+        // Append log line
+        function appendLog(text, type = 'info') {
+            const line = document.createElement('div');
+            line.className = `log-line log-${type}`;
+            line.textContent = text;
+            logContainer.appendChild(line);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Set running state
+        function setRunningState(running) {
+            isRunning = running;
+            runBtn.disabled = running;
+            stopBtn.disabled = !running;
+            commandInput.disabled = running;
+
+            if (running) {
+                statusIndicator.className = 'status-indicator running';
+                statusText.textContent = 'Running...';
+                statusBar.className = 'status-bar running';
+            } else {
+                statusIndicator.className = 'status-indicator';
+                statusText.textContent = 'Ready';
+                statusBar.className = 'status-bar';
+            }
+        }
+
+        // Load results
+        async function loadResults() {
+            try {
+                const response = await fetch('/status');
+                const data = await response.json();
+
+                if (data.results) {
+                    resultsSection.style.display = 'block';
+                    displayResults(data.results);
+                }
+            } catch (error) {
+                console.error('Error loading results:', error);
+            }
+        }
+
+        // Display results
+        function displayResults(results) {
+            let html = '<div class="results-grid">';
+
+            // Best model
+            if (results.best_model_name) {
+                html += `
+                    <div class="result-card">
+                        <h3>Best Model</h3>
+                        <p class="result-value">${results.best_model_name}</p>
+                    </div>
+                `;
+            }
+
+            // Configuration
+            html += `
+                <div class="result-card">
+                    <h3>Configuration</h3>
+                    <p>Calibration: ${results.use_calibration ? 'Yes' : 'No'}</p>
+                    <p>Ensemble: ${results.use_ensemble ? 'Yes' : 'No'}</p>
+                </div>
+            `;
+
+            // Model results
+            if (results.evaluation_results) {
+                html += '<div class="result-card full-width"><h3>Model Performance</h3><table>';
+                html += '<tr><th>Model</th><th>Log Loss</th><th>Accuracy</th></tr>';
+                
+                for (const [model, metrics] of Object.entries(results.evaluation_results)) {
+                    const logloss = metrics.logloss?.toFixed(4) || 'N/A';
+                    const accuracy = metrics.accuracy ? (metrics.accuracy * 100).toFixed(2) + '%' : 'N/A';
+                    html += `<tr><td>${model}</td><td>${logloss}</td><td>${accuracy}</td></tr>`;
+                }
+                
+                html += '</table></div>';
+            }
+
+            html += '</div>';
+            resultsContent.innerHTML = html;
+        }
+
+        // Check status on load
+        window.addEventListener('load', async () => {
+            try {
+                const response = await fetch('/status');
+                const data = await response.json();
+                
+                if (data.running) {
+                    startLogStream();
+                } else if (data.results) {
+                    loadResults();
+                }
+            } catch (error) {
+                console.error('Error checking status:', error);
+            }
+        });
+    </script>
+</body>
+</html>
